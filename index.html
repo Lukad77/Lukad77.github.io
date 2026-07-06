@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hello, I'm 南陔</title>
+<style>
+  :root {
+    --bg: #0b1220;
+    --bg-panel: rgba(20, 32, 55, 0.72);
+    --bg-panel-solid: #142037;
+    --border: rgba(120, 160, 220, 0.15);
+    --text: #dbe6f5;
+    --text-dim: #8ea2c2;
+    --accent-pink: #ff5c8a;
+    --accent-purple: #a86bff;
+    --accent-cyan: #4dd0e1;
+    --chip: rgba(77, 208, 225, 0.12);
+    --chip-text: #7ee0ee;
+  }
+
+  html.light {
+    --bg: #f5f7fb;
+    --bg-panel: rgba(255, 255, 255, 0.85);
+    --bg-panel-solid: #ffffff;
+    --border: rgba(30, 60, 110, 0.12);
+    --text: #1a2540;
+    --text-dim: #5a6a85;
+    --chip: rgba(30, 100, 180, 0.08);
+    --chip-text: #1a5aa8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+      "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    color: var(--text);
+    background:
+      linear-gradient(rgba(11, 18, 32, 0.85), rgba(11, 18, 32, 0.85)),
+      url("https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1600&auto=format&fit=crop")
+      center/cover fixed;
+    min-height: 100vh;
+  }
+  html.light body {
+    background:
+      linear-gradient(rgba(245, 247, 251, 0.9), rgba(245, 247, 251, 0.9)),
+      url("https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1600&auto=format&fit=crop")
+      center/cover fixed;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 28px;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 32px 24px 80px;
+  }
+
+  /* ---------- Sidebar ---------- */
+  .sidebar { position: sticky; top: 32px; align-self: start; }
+  .card {
+    background: var(--bg-panel);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+
+  .avatar-wrap {
+    display: flex; justify-content: center; margin-bottom: 18px;
+  }
+  .avatar {
+    width: 150px; height: 150px; border-radius: 50%;
+    background: linear-gradient(135deg, #ff5c8a, #a86bff, #4dd0e1);
+    padding: 3px;
+  }
+  .avatar img {
+    width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
+    background: var(--bg-panel-solid);
+  }
+
+  .info-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px; border-radius: 10px;
+    background: rgba(255,255,255,0.03);
+    margin-bottom: 8px;
+    color: var(--text-dim); font-size: 14px;
+  }
+  .info-row a { color: var(--accent-cyan); text-decoration: none; }
+  .info-row a:hover { text-decoration: underline; }
+  .info-row svg { width: 16px; height: 16px; opacity: 0.7; flex-shrink: 0; }
+
+  .tag-title {
+    font-size: 13px; color: var(--text-dim);
+    margin-bottom: 12px; letter-spacing: 0.5px;
+  }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag {
+    padding: 6px 14px; border-radius: 999px;
+    background: var(--chip); color: var(--chip-text);
+    font-size: 13px;
+  }
+
+  .timeline { margin-top: 4px; }
+  .timeline-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 4px;
+    font-size: 14px;
+  }
+  .dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: #2a4468; flex-shrink: 0;
+  }
+  .timeline-item.current .dot {
+    background: var(--accent-cyan);
+    box-shadow: 0 0 12px var(--accent-cyan);
+  }
+  .timeline-label { flex: 1; color: var(--text); }
+  .timeline-year { color: var(--text-dim); font-size: 12px; }
+
+  /* ---------- Main ---------- */
+  .main {
+    background: var(--bg-panel);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .main::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, #ff5c8a, #a86bff, #4dd0e1);
+  }
+
+  .hero-title {
+    font-size: 44px; font-weight: 700;
+    margin-bottom: 24px;
+  }
+  .hero-title .name {
+    background: linear-gradient(90deg, #ff5c8a, #a86bff, #4dd0e1);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .intro { margin-bottom: 8px; color: var(--text); line-height: 1.9; }
+  .intro .hi { background: rgba(255, 208, 100, 0.15); padding: 2px 6px; border-radius: 4px; }
+
+  .socials {
+    display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap;
+  }
+  .social {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 18px; border-radius: 10px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    color: var(--text); text-decoration: none; font-size: 14px;
+    transition: all 0.2s;
+  }
+  .social:hover {
+    background: rgba(168, 107, 255, 0.15);
+    border-color: var(--accent-purple);
+    transform: translateY(-2px);
+  }
+
+  .contrib {
+    margin-top: 32px; padding: 24px;
+    background: rgba(10, 20, 40, 0.5);
+    border-radius: 14px;
+  }
+  .contrib-grid {
+    display: grid;
+    grid-template-columns: repeat(53, 1fr);
+    gap: 3px;
+  }
+  .contrib-cell {
+    aspect-ratio: 1; border-radius: 2px;
+    background: rgba(60, 90, 130, 0.15);
+  }
+  .contrib-cell.lv1 { background: #0e4429; }
+  .contrib-cell.lv2 { background: #006d32; }
+  .contrib-cell.lv3 { background: #26a641; }
+  .contrib-cell.lv4 { background: #39d353; }
+
+  .stats {
+    display: flex; gap: 40px; margin-top: 28px;
+    padding: 20px 24px;
+    background: rgba(10, 20, 40, 0.4);
+    border-radius: 14px;
+  }
+  .stat-num { font-size: 32px; font-weight: 700; color: var(--accent-cyan); }
+  .stat-label { color: var(--text-dim); font-size: 14px; }
+
+  .section-title {
+    margin: 40px 0 16px;
+    font-size: 20px; font-weight: 600;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .post-list { display: grid; gap: 10px; }
+  .post {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 18px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 10px;
+    text-decoration: none; color: var(--text);
+    transition: all 0.2s;
+  }
+  .post:hover {
+    background: rgba(168, 107, 255, 0.1);
+    transform: translateX(4px);
+  }
+  .post-title { font-size: 15px; }
+  .post-date { color: var(--text-dim); font-size: 12px; }
+
+  /* Theme toggle */
+  .theme-toggle {
+    position: fixed; right: 24px; bottom: 24px;
+    width: 48px; height: 48px; border-radius: 50%;
+    background: var(--bg-panel-solid);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 20px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  }
+
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidebar { position: static; }
+    .main { padding: 28px 20px; }
+    .hero-title { font-size: 32px; }
+    .stats { gap: 24px; }
+  }
+</style>
+</head>
+<body>
+  <div class="layout">
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar">
+      <div class="card">
+        <div class="avatar-wrap">
+          <div class="avatar">
+            <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Lukad77" alt="avatar" />
+          </div>
+        </div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s-8-7.5-8-13a8 8 0 1 1 16 0c0 5.5-8 13-8 13z"/><circle cx="12" cy="9" r="3"/></svg>
+          <span>China · Xi'an / Hangzhou</span>
+        </div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          <a href="https://www.nwu.edu.cn" target="_blank" rel="noopener">NWU · 西北大学</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="tag-title">兴趣 / 关键词</div>
+        <div class="tags">
+          <span class="tag">🏀 Basketball</span>
+          <span class="tag">🎮 CS2</span>
+          <span class="tag">🔌 模拟电路</span>
+          <span class="tag">💾 数字电路</span>
+          <span class="tag">🛠️ 嵌入式</span>
+          <span class="tag">🧮 Calculate</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="tag-title">时间线</div>
+        <div class="timeline">
+          <div class="timeline-item current">
+            <span class="dot"></span>
+            <span class="timeline-label">推荐研发工程师</span>
+            <span class="timeline-year">2026</span>
+          </div>
+          <div class="timeline-item">
+            <span class="dot"></span>
+            <span class="timeline-label">NWU EE 硕士</span>
+            <span class="timeline-year">2024</span>
+          </div>
+          <div class="timeline-item">
+            <span class="dot"></span>
+            <span class="timeline-label">NWU EE 本科</span>
+            <span class="timeline-year">2020</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ============ MAIN ============ -->
+    <main class="main">
+      <h1 class="hero-title">Hello, I'm <span class="name">南陔</span></h1>
+
+      <div class="intro">
+        <p>📕 <span class="hi">从模拟电路的一颗三极管，到推荐系统里的一次点击 —— 都是在追同一件事：让信号找到对的人。</span></p>
+        <p style="margin-top:12px">📘 An EE-born Recommender Engineer, wandering between hardware intuition and data-driven models.</p>
+        <p style="margin-top:12px">📙 打球、玩 CS2、写嵌入式、也算算数 —— 相信理科生的浪漫在于把复杂的东西拆开看。</p>
+      </div>
+
+      <div class="socials">
+        <a class="social" href="https://github.com/Lukad77" target="_blank">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.4-4-1.4-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.9 1.2 1.9 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.7 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.7-5.5 6 .4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg>
+          GitHub
+        </a>
+        <a class="social" href="mailto:1041653585@qq.com">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
+          Mail
+        </a>
+        <a class="social" href="#wechat">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12h.01M12 12h.01M16 12h.01"/><path d="M21 12a9 9 0 1 1-3.5-7.1L21 3v6h-6"/></svg>
+          WeChat
+        </a>
+        <a class="social" href="#rss">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11a9 9 0 0 1 9 9M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+          RSS
+        </a>
+      </div>
+
+      <!-- 贡献热力图（占位，用随机数据；后面可接 GitHub API） -->
+      <div class="contrib">
+        <div class="contrib-grid" id="contrib"></div>
+      </div>
+
+      <div class="stats">
+        <div><div class="stat-num">6</div><div class="stat-label">兴趣</div></div>
+        <div><div class="stat-num">3</div><div class="stat-label">阶段</div></div>
+        <div><div class="stat-num">∞</div><div class="stat-label">在路上</div></div>
+      </div>
+
+      <div class="section-title">📝 最近文章</div>
+      <div class="post-list">
+        <a class="post" href="#"><span class="post-title">推荐系统里的召回与排序，本质上是同一个问题吗？</span><span class="post-date">Coming soon</span></a>
+        <a class="post" href="#"><span class="post-title">从 STM32 到分布式系统 —— 嵌入式思维给我的三个启发</span><span class="post-date">Coming soon</span></a>
+        <a class="post" href="#"><span class="post-title">CS2 战术里的博弈论：概率、信息与决策</span><span class="post-date">Coming soon</span></a>
+        <a class="post" href="#"><span class="post-title">从 NWU 到杭州 —— 一个 EE 生的转向手记</span><span class="post-date">Coming soon</span></a>
+      </div>
+    </main>
+  </div>
+
+  <button class="theme-toggle" onclick="document.documentElement.classList.toggle('light')">☀️</button>
+
+  <script>
+    // 生成一年 53*7 的伪贡献格子
+    const g = document.getElementById('contrib');
+    const total = 53 * 7;
+    let html = '';
+    for (let i = 0; i < total; i++) {
+      const r = Math.random();
+      let lv = '';
+      if (r > 0.92) lv = 'lv4';
+      else if (r > 0.82) lv = 'lv3';
+      else if (r > 0.7) lv = 'lv2';
+      else if (r > 0.55) lv = 'lv1';
+      html += `<div class="contrib-cell ${lv}"></div>`;
+    }
+    g.innerHTML = html;
+  </script>
+</body>
+</html>
