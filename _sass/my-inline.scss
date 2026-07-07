@@ -30,13 +30,18 @@
   --c-text-mute:   #94a3b8;  // slate-400
 }
 
-// -------- 侧栏：用真实图片 + 轻暗遮罩 --------
+// -------- 全页面背景：Unsplash CDN 外链（不存本地，加载快） --------
+body {
+  background: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1920&auto=format&q=80')
+    center/cover no-repeat fixed !important;
+  color: var(--c-text);
+}
+
+// -------- 侧栏：直接透出背景图（清晰），只加一层轻暗遮罩保证文字可读 --------
 .sidebar-bg,
 .sidebar .sidebar-bg {
-  background-image: none !important;
-  background:
-    linear-gradient(180deg, rgba(15, 23, 42, 0.25) 0%, rgba(15, 23, 42, 0.45) 100%),
-    url('/assets/img/sidebar-bg.jpg') center/cover no-repeat !important;
+  background: rgba(15, 23, 42, 0.35) !important;
+  // 不设 background-image，让 body 的背景图直接透出来
 }
 
 .sidebar,
@@ -53,36 +58,51 @@
   color: #fff;
 }
 
-// -------- 内容区：同源图片 + 白色半透明遮罩（不用伪元素） --------
-body {
-  background:
-    linear-gradient(rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.88)),
-    url('/assets/img/sidebar-bg.jpg') center/cover no-repeat fixed !important;
-  color: var(--c-text);
-}
-
-// 卡片：毛玻璃效果
-.page, .post {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-radius: 12px;
-  padding: 2.5rem 2.2rem;
-  margin: 1.2rem 0;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
-}
-
-// -------- 收窄内容区宽度 + 去掉顶部多余空白 --------
+// -------- 内容区：backdrop-filter 实时虚化背景图（GPU 渲染，零额外请求） --------
 .content {
+  position: relative;
   max-width: 52rem;
   padding-top: 0.5rem !important;
 }
 
+// 内容区整体毛玻璃层
+.content::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  // 从侧栏右边缘开始到页面右边缘
+  left: 21rem; // hydejack 侧栏默认宽度
+  right: 0;
+  bottom: 0;
+  backdrop-filter: blur(20px) saturate(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+  background: rgba(255, 255, 255, 0.75);
+  z-index: -1;
+  pointer-events: none;
+}
+
+// 卡片：更深的毛玻璃 + 白底
+.page, .post {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 12px;
+  padding: 2.5rem 2.2rem;
+  margin: 1.2rem 0;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+}
+
+// -------- 收窄顶部空白 --------
 #_navbar, .navbar, header.content {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
   min-height: auto;
+}
+
+// 响应式：移动端侧栏收起时 content::before 从左边缘开始
+@media (max-width: 63em) {
+  .content::before { left: 0; }
 }
 
 // -------- 字体全局 --------
