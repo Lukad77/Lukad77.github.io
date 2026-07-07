@@ -7,10 +7,15 @@ layout: default
 {% if content contains 'language-mermaid' %}
 <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
 <script>
-  mermaid.initialize({
-    startOnLoad: true,
-    theme: 'default',
-    flowchart: { htmlLabels: true, curve: 'basis' }
-  });
+  function initMermaid() {
+    if (typeof mermaid === 'undefined') return;
+    mermaid.initialize({ startOnLoad: false, theme: 'default' });
+    mermaid.run({ querySelector: 'code.language-mermaid' });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMermaid);
+  } else {
+    initMermaid();
+  }
 </script>
 {% endif %}
