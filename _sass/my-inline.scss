@@ -82,6 +82,8 @@ body {
   -webkit-backdrop-filter: blur(24px) saturate(1.3);
   background: rgba(255, 255, 255, 0.72) !important;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 // 卡片：在已经模糊的内容区上再加一层微妙白底
@@ -373,6 +375,31 @@ p strong {
   -webkit-background-clip: unset;
   background-clip: unset;
   -webkit-text-fill-color: unset;
+}
+
+// -------- Footer 位置修正（贴底，不悬空） --------
+footer, .legal, .content > .hr + * {
+  margin-top: auto;
+  padding-top: 2rem;
+}
+
+// -------- 手机端：右上角小头像 --------
+@media (max-width: 63em) {
+  // 在 body 上用 ::after 放一个右上角小头像
+  body::after {
+    content: "";
+    position: fixed;
+    top: 0.75rem;
+    right: 0.75rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: url('/assets/img/avatar.png') center/cover no-repeat;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 999;
+    pointer-events: none;
+  }
 }
 
 // -------- 深色模式 --------
