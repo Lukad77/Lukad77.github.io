@@ -16,7 +16,7 @@ categories-tree.html
 <div class="cat-tree">
 {% for c in site.data.categories %}
   {% assign key = c.key %}
-  {% assign posts_in_cat = site.posts | where_exp:"p","p.categories contains key or p.category == key" %}
+  {% assign posts_in_cat = site.posts | where_exp:"p","p.categories contains key" %}
   {% assign cnt = posts_in_cat | size %}
 
   <details class="cat-folder" {% if cnt > 0 %}open{% endif %}>

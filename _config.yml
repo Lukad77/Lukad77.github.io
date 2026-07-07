@@ -17,6 +17,7 @@ remote_theme:    hydecorp/hydejack@v9.2.1
 theme_color:     "#a86bff"    # 主色，取自你原 index.html 的紫
 
 # hydejack 相关配置
+# accent_image 是 hydejack 侧栏顶部的背景图 URL（字符串，可省略）
 accent_color:    "#a86bff"
 
 # 侧栏内容开关
@@ -56,7 +57,7 @@ author:
 paginate:        20
 paginate_path:   /page/:num/
 
-permalink:       /:categories/:year/:month/:day/:title/
+permalink:       /:year/:month/:day/:title/
 
 # ===================================================================
 # 构建配置
@@ -79,11 +80,6 @@ exclude:
   - _backup
   - README.md
 
-collections:
-  featured_categories:
-    permalink:   /category/:name/
-    output:      true
-
 defaults:
   - scope:
       path:      ""
@@ -92,9 +88,3 @@ defaults:
       layout:    post
       author:    南陔
       comments:  false
-      applause_button: false
-  - scope:
-      path:      ""
-      type:      featured_categories
-    values:
-      layout:    list
