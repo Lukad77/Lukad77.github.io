@@ -17,36 +17,51 @@
   --nan-grad-diag: linear-gradient(135deg, var(--nan-deep) 0%, var(--nan-purple) 50%, var(--nan-cyan) 100%);
 }
 
-// -------- 侧栏背景（纯 CSS 渐变，替代图片，零加载） --------
+// -------- 侧栏背景（纯 CSS 渐变，提亮版） --------
 .sidebar-bg,
 .sidebar .sidebar-bg {
   background-image: none !important;
   background:
-    // 顶部微光晕（模拟天空光源）
-    radial-gradient(ellipse at 50% 0%, rgba(77, 208, 225, 0.15) 0%, transparent 60%),
+    // 顶部微光晕
+    radial-gradient(ellipse at 50% 0%, rgba(77, 208, 225, 0.12) 0%, transparent 55%),
     // 中部柔和光带
-    radial-gradient(ellipse at 30% 50%, rgba(33, 150, 243, 0.08) 0%, transparent 50%),
-    // 底部深色到顶部稍浅的主渐变
+    radial-gradient(ellipse at 30% 60%, rgba(33, 150, 243, 0.06) 0%, transparent 45%),
+    // 主渐变：整体提亮到深蓝灰，不再接近黑
     linear-gradient(180deg,
-      #1a2a4a 0%,      // 深蓝灰（顶）
-      #0f1b2d 35%,     // 深夜蓝
-      #0a1628 70%,     // 接近黑
-      #060d18 100%     // 极深蓝黑（底）
+      #2c3e5a 0%,      // 蓝灰（顶）
+      #1e2d44 40%,     // 深蓝灰
+      #1a2740 70%,     // 稍深
+      #162236 100%     // 底部最深（但远比之前浅）
     ) !important;
 }
 
-// 侧栏文字始终白色，确保可读
+// 侧栏文字
 .sidebar,
 .sidebar-sticky {
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.92);
 }
 .sidebar a,
 .sidebar .sidebar-nav-item {
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.88);
 }
 .sidebar a:hover,
 .sidebar .sidebar-nav-item:hover {
   color: #4dd0e1;
+}
+
+// -------- 内容区背景：淡蓝灰底，和侧栏色温衔接 --------
+.content,
+main,
+body {
+  background-color: #f0f4f8 !important;  // 冷调浅灰蓝
+}
+// 顶部彩色进度条下方加一点 subtle 分隔
+.page, .post {
+  background: #fff;
+  border-radius: 8px;
+  padding: 2.5rem 2rem;
+  margin: 1rem 0;
+  box-shadow: 0 1px 4px rgba(30, 45, 68, 0.06);
 }
 
 // -------- 全局字体接管 --------
