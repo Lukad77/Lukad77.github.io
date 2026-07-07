@@ -17,8 +17,8 @@ remote_theme:    hydecorp/hydejack@v9.1.9
 theme_color:     "#2196f3"    # 主色，蓝青冷色系
 
 # hydejack 相关配置
-# accent_image 是 hydejack 侧栏顶部的背景图 URL（字符串，可省略）
 accent_color:    "#2196f3"
+accent_image:    /assets/img/sidebar-bg.jpg
 logo:            /assets/img/avatar.png
 
 # 侧栏内容开关
