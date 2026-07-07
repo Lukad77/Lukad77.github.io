@@ -34,10 +34,15 @@
 .sidebar-bg,
 .sidebar .sidebar-bg {
   background-image: none !important;
-  background: linear-gradient(180deg,
-    var(--c-sidebar) 0%,
-    var(--c-sidebar-deep) 100%
-  ) !important;
+  background:
+    // 中上部一抹柔和蓝色光带，让渐变有层次感
+    radial-gradient(ellipse at 50% 30%, rgba(59, 130, 246, 0.1) 0%, transparent 60%),
+    // 主渐变：从偏亮的 slate-700 到深沉的 slate-900
+    linear-gradient(180deg,
+      #334155 0%,      // slate-700（顶部偏亮）
+      #1e293b 50%,     // slate-800（中段）
+      #0f172a 100%     // slate-900（底部深沉）
+    ) !important;
 }
 
 .sidebar,
@@ -56,7 +61,7 @@
 
 // -------- 内容区 --------
 .content, main, body {
-  background-color: var(--c-bg) !important;
+  background-color: #e2e8f0 !important;  // slate-200，和侧栏色温呼应
   color: var(--c-text);
 }
 
@@ -66,7 +71,7 @@
   padding: 2.5rem 2.2rem;
   margin: 1.2rem 0;
   border: 1px solid var(--c-border);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 // -------- 字体全局 --------
