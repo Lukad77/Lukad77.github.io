@@ -19,6 +19,7 @@ theme_color:     "#a86bff"    # 主色，取自你原 index.html 的紫
 # hydejack 相关配置
 # accent_image 是 hydejack 侧栏顶部的背景图 URL（字符串，可省略）
 accent_color:    "#a86bff"
+logo:            /assets/img/avatar.png
 
 # 侧栏内容开关
 menu:
