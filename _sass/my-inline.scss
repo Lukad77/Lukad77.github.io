@@ -366,6 +366,22 @@ a:hover {
   color: var(--c-text);
 }
 
+// -------- Mermaid 图表：不溢出容器 --------
+pre:has(> code.language-mermaid) {
+  overflow-x: auto;
+  background: transparent;
+  border: none;
+  padding: 0.5rem 0;
+}
+pre > code.language-mermaid {
+  display: block;
+  text-align: center;
+}
+.mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+
 // -------- 段落加粗：不再渐变，用 accent 色 --------
 p strong {
   color: var(--c-accent);
