@@ -74,8 +74,7 @@ body {
 }
 
 // -------- 内容区：毛玻璃虚化背景图 --------
-// hydejack 有多个 .content，真正的主内容区是包含 article.page 的那个
-// 用 :has() 精确选中，或者用 hy-push-state > .content 层级关系
+// hydejack 有多个 .content，用 :has() 选中包含文章的那个
 .content:has(> article),
 hy-push-state > .content,
 #_main > .content {
@@ -85,24 +84,9 @@ hy-push-state > .content,
   -webkit-backdrop-filter: blur(24px) saturate(1.3);
   background: rgba(255, 255, 255, 0.72) !important;
   min-height: 100vh;
-  // 贴底布局
-  display: flex;
-  flex-direction: column;
 }
 
-// 主内容文章撑满空间
-article.page {
-  flex: 1 1 auto;
-}
-
-// Footer 自动推到底部
-footer.content,
-.content > footer {
-  margin-top: auto !important;
-  flex-shrink: 0;
-}
-
-// 卡片样式
+// 卡片样式（不加 flex:1，让文档正常流动）
 .page, .post {
   background: rgba(255, 255, 255, 0.6);
   border-radius: 12px;
@@ -393,8 +377,13 @@ p strong {
   -webkit-text-fill-color: unset;
 }
 
-// -------- Footer 位置修正（贴底） --------
-// article.page 已经 flex:1 撑满，footer 自动在底部
+// -------- Footer 样式（自然流动，不做 flex） --------
+footer.content {
+  font-size: 0.8rem;
+  color: var(--c-text-mute);
+  padding: 1rem 0;
+  text-align: center;
+}
 
 // -------- 手机端：左上角头像 --------
 @media (max-width: 63em) {
