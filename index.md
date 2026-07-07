@@ -1,10 +1,9 @@
 ---
-layout: welcome
+layout: page
 title: 南陔的知识小屋
 description: >-
   从模拟电路的一颗三极管，到推荐系统里的一次点击 —— 都是在追同一件事：让信号找到对的人。
-buttons:
-  print: false
+sitemap: false
 ---
 
 ## 关于我

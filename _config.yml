@@ -17,9 +17,6 @@ remote_theme:    hydecorp/hydejack@v9.2.1
 theme_color:     "#a86bff"    # 主色，取自你原 index.html 的紫
 
 # hydejack 相关配置
-accent_image:
-  background:    "linear-gradient(135deg,#ff5c8a 0%,#a86bff 50%,#4dd0e1 100%)"
-  overlay:       false
 accent_color:    "#a86bff"
 
 # 侧栏内容开关

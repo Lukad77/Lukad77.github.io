@@ -1,5 +1,5 @@
 ---
-layout: about
+layout: page
 title: 关于
 menu: true
 order: 2
