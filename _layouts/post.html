@@ -1,0 +1,16 @@
+---
+layout: default
+---
+
+{{ content }}
+
+{% if content contains 'language-mermaid' %}
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'default',
+    flowchart: { htmlLabels: true, curve: 'basis' }
+  });
+</script>
+{% endif %}
