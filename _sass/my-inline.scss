@@ -377,9 +377,15 @@ pre > code.language-mermaid {
   display: block;
   text-align: center;
 }
+// Mermaid 渲染后：pre>code 被替换为 div.mermaid
+.mermaid {
+  overflow-x: auto;
+  text-align: center;
+  margin: 1rem 0;
+}
 .mermaid svg {
-  max-width: 100%;
-  height: auto;
+  max-width: 100% !important;
+  height: auto !important;
 }
 
 // -------- 段落加粗：不再渐变，用 accent 色 --------

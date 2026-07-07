@@ -10,7 +10,13 @@ layout: default
   function initMermaid() {
     if (typeof mermaid === 'undefined') return;
     mermaid.initialize({ startOnLoad: false, theme: 'default' });
-    mermaid.run({ querySelector: 'code.language-mermaid' });
+    mermaid.run({ querySelector: 'code.language-mermaid' }).then(function() {
+      document.querySelectorAll('.mermaid svg').forEach(function(svg) {
+        svg.removeAttribute('width');
+        svg.style.maxWidth = '100%';
+        svg.style.height = 'auto';
+      });
+    });
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initMermaid);
