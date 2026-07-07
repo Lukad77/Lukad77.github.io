@@ -1,115 +1,129 @@
-// -----------------------------------------------------------------------------
-// my-inline.scss — 站点自定义样式（会被 hydejack 内联注入）
-// -----------------------------------------------------------------------------
-// 目标：承接原 index.html 的粉紫青渐变基调 + 加一点动效，让站点不那么"素"
-// -----------------------------------------------------------------------------
+// =============================================================================
+// my-inline.scss — 南陔的知识小屋 · 优雅蓝色系重设计
+// =============================================================================
+// 设计理念：克制 > 花哨。蓝色只在关键锚点出现（链接、badge、hover），
+// 大面积用冷灰白+石板蓝控制节奏。参考 Linear/Brittany Chiang/Tailwind Docs 风格。
+// =============================================================================
 
-// -------- 字体：Google Fonts + 中文回退 --------
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+// -------- 字体 --------
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
-// -------- 配色（蓝青冷色系，和侧栏海洋背景统一） --------
+// -------- 配色系统 --------
 :root {
-  --nan-deep:    #1565c0;   // 深蓝（锚点色）
-  --nan-purple:  #2196f3;   // 主蓝（替代原紫色）
-  --nan-cyan:    #4dd0e1;   // 青（保留）
-  --nan-light:   #80deea;   // 浅青（hover 用）
-  --nan-grad:    linear-gradient(90deg, var(--nan-deep), var(--nan-purple), var(--nan-cyan));
-  --nan-grad-diag: linear-gradient(135deg, var(--nan-deep) 0%, var(--nan-purple) 50%, var(--nan-cyan) 100%);
+  // 主色（只用在链接、badge、hover 这些"需要引导视线"的地方）
+  --c-accent:     #3b82f6;   // blue-500，柔和但有存在感
+  --c-accent-dim: #60a5fa;   // blue-400，hover 态
+  --c-accent-bg:  rgba(59, 130, 246, 0.08); // 微底色
+
+  // 侧栏（深色石板蓝，和 Tailwind slate-800/900 同源）
+  --c-sidebar:      #1e293b; // slate-800
+  --c-sidebar-deep: #0f172a; // slate-900
+
+  // 内容区（极浅暖灰，不是纯白也不是冷蓝）
+  --c-bg:          #f8fafc;  // slate-50
+  --c-surface:     #ffffff;  // 卡片白
+  --c-border:      #e2e8f0;  // slate-200
+
+  // 文字
+  --c-text:        #1e293b;  // slate-800
+  --c-text-dim:    #64748b;  // slate-500
+  --c-text-mute:   #94a3b8;  // slate-400
 }
 
-// -------- 侧栏背景（纯 CSS 渐变，提亮版） --------
+// -------- 侧栏 --------
 .sidebar-bg,
 .sidebar .sidebar-bg {
   background-image: none !important;
-  background:
-    // 顶部微光晕
-    radial-gradient(ellipse at 50% 0%, rgba(77, 208, 225, 0.12) 0%, transparent 55%),
-    // 中部柔和光带
-    radial-gradient(ellipse at 30% 60%, rgba(33, 150, 243, 0.06) 0%, transparent 45%),
-    // 主渐变：整体提亮到深蓝灰，不再接近黑
-    linear-gradient(180deg,
-      #2c3e5a 0%,      // 蓝灰（顶）
-      #1e2d44 40%,     // 深蓝灰
-      #1a2740 70%,     // 稍深
-      #162236 100%     // 底部最深（但远比之前浅）
-    ) !important;
+  background: linear-gradient(180deg,
+    var(--c-sidebar) 0%,
+    var(--c-sidebar-deep) 100%
+  ) !important;
 }
 
-// 侧栏文字
 .sidebar,
 .sidebar-sticky {
-  color: rgba(255, 255, 255, 0.92);
+  color: #e2e8f0; // slate-200
 }
 .sidebar a,
 .sidebar .sidebar-nav-item {
-  color: rgba(255, 255, 255, 0.88);
+  color: #cbd5e1; // slate-300
+  transition: color 0.2s;
 }
 .sidebar a:hover,
 .sidebar .sidebar-nav-item:hover {
-  color: #4dd0e1;
+  color: #fff;
 }
 
-// -------- 内容区背景：淡蓝灰底，和侧栏色温衔接 --------
-.content,
-main,
-body {
-  background-color: #f0f4f8 !important;  // 冷调浅灰蓝
+// -------- 内容区 --------
+.content, main, body {
+  background-color: var(--c-bg) !important;
+  color: var(--c-text);
 }
-// 顶部彩色进度条下方加一点 subtle 分隔
+
 .page, .post {
-  background: #fff;
-  border-radius: 8px;
-  padding: 2.5rem 2rem;
-  margin: 1rem 0;
-  box-shadow: 0 1px 4px rgba(30, 45, 68, 0.06);
+  background: var(--c-surface);
+  border-radius: 12px;
+  padding: 2.5rem 2.2rem;
+  margin: 1.2rem 0;
+  border: 1px solid var(--c-border);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
-// -------- 全局字体接管 --------
-body,
-.sidebar,
-.content,
-main {
+// -------- 字体全局 --------
+body, .sidebar, .content, main {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'PingFang SC',
-    'Hiragino Sans GB', 'Microsoft YaHei', 'Segoe UI', sans-serif;
-  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code, pre, .highlight, kbd, samp {
-  font-family: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+  font-family: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
 }
 
-// -------- 大标题渐变 --------
+// -------- 标题：不再渐变，用纯深蓝 + 粗体 + 微妙入场 --------
 h1, .page-title, .post-title, .hero-title {
-  background: var(--nan-grad-diag);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--c-text);
   font-weight: 700;
-  letter-spacing: -0.02em;
-  animation: nan-title-in 0.6s cubic-bezier(.2,.9,.3,1) both;
+  letter-spacing: -0.025em;
+  // 去掉渐变 text-fill，让标题回归正色
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
+  -webkit-text-fill-color: unset;
+  animation: nan-title-in 0.5s cubic-bezier(.2,.9,.3,1) both;
 }
 
 h2, h3 {
+  color: var(--c-text);
   font-weight: 600;
   letter-spacing: -0.01em;
 }
 
-// -------- 动画关键帧 --------
+// -------- 链接 --------
+a {
+  color: var(--c-accent);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+a:hover {
+  color: var(--c-accent-dim);
+}
+
+// -------- 动画（保留但更克制） --------
 @keyframes nan-title-in {
-  from { opacity: 0; transform: translateY(6px); }
+  from { opacity: 0; transform: translateY(4px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes nan-fade-up {
-  from { opacity: 0; transform: translateY(10px); }
+  from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes nan-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(33, 150, 243, 0.55); }
-  50%      { box-shadow: 0 0 0 6px rgba(33, 150, 243, 0);   }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
+  50%      { box-shadow: 0 0 0 5px rgba(59, 130, 246, 0); }
 }
 
 // -------- 折叠目录 --------
@@ -117,87 +131,83 @@ h2, h3 {
   margin: 1.5rem 0;
 
   .cat-folder {
-    margin: 0.6rem 0;
-    padding: 0;
-    border: 1px solid rgba(128, 128, 128, 0.18);
-    border-radius: 12px;
-    background: rgba(128, 128, 128, 0.04);
+    margin: 0.5rem 0;
+    border: 1px solid var(--c-border);
+    border-radius: 10px;
+    background: var(--c-surface);
     overflow: hidden;
-    transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+    transition: border-color 0.2s, box-shadow 0.2s;
   }
   .cat-folder[open] {
-    border-color: rgba(33, 150, 243, 0.4);
-    box-shadow: 0 4px 20px -8px rgba(33, 150, 243, 0.35);
+    border-color: var(--c-accent);
+    box-shadow: 0 2px 12px -4px rgba(59, 130, 246, 0.15);
   }
   .cat-folder:hover {
-    border-color: rgba(33, 150, 243, 0.7);
-    transform: translateY(-1px);
+    border-color: rgba(59, 130, 246, 0.5);
   }
 
   .cat-head {
     display: flex;
     align-items: center;
-    gap: 0.8rem;
-    padding: 0.8rem 1rem;
+    gap: 0.7rem;
+    padding: 0.75rem 1rem;
     cursor: pointer;
-    font-size: 1.05rem;
+    font-size: 1rem;
     font-weight: 600;
+    color: var(--c-text);
     user-select: none;
     list-style: none;
-    position: relative;
   }
   .cat-head::-webkit-details-marker { display: none; }
   .cat-head::marker { display: none; }
   .cat-head::after {
-    content: "▸";
+    content: "›";
     margin-left: auto;
-    color: #999;
-    transition: transform 0.25s cubic-bezier(.5,0,.5,1);
+    color: var(--c-text-mute);
+    font-size: 1.2rem;
+    transition: transform 0.2s;
   }
   details[open] > .cat-head::after { transform: rotate(90deg); }
 
   .cat-emoji {
-    font-size: 1.3rem;
-    display: inline-block;
-    transition: transform 0.3s cubic-bezier(.4,1.4,.5,1);
+    font-size: 1.2rem;
+    transition: transform 0.2s;
   }
-  details[open] > .cat-head .cat-emoji { transform: scale(1.15) rotate(-6deg); }
-  .cat-folder:hover .cat-emoji { transform: scale(1.1); }
+  details[open] > .cat-head .cat-emoji { transform: scale(1.1); }
 
   .cat-name { flex: 0 1 auto; }
 
   .cat-count {
-    display: inline-block;
-    min-width: 1.8rem;
-    padding: 0.05rem 0.55rem;
-    text-align: center;
-    background: var(--nan-grad-diag);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.5rem;
+    height: 1.5rem;
+    padding: 0 0.4rem;
+    background: var(--c-accent);
     color: #fff;
     border-radius: 999px;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 600;
-    letter-spacing: 0.02em;
-    box-shadow: 0 2px 8px -2px rgba(33, 150, 243, 0.6);
   }
 
   .cat-desc {
-    padding: 0 1rem 0.5rem 3rem;
-    font-size: 0.85rem;
-    color: #888;
-    font-style: italic;
+    padding: 0 1rem 0.5rem 2.8rem;
+    font-size: 0.82rem;
+    color: var(--c-text-mute);
   }
 
   .cat-empty {
-    padding: 0.6rem 1rem 0.9rem 3rem;
-    font-size: 0.88rem;
-    color: #aaa;
+    padding: 0.5rem 1rem 0.8rem 2.8rem;
+    font-size: 0.85rem;
+    color: var(--c-text-mute);
     font-style: italic;
   }
 
   .cat-post-list {
     list-style: none;
     margin: 0;
-    padding: 0.2rem 0 0.8rem 0;
+    padding: 0 0 0.6rem;
   }
 
   .cat-post-item {
@@ -205,66 +215,57 @@ h2, h3 {
     justify-content: space-between;
     align-items: baseline;
     gap: 1rem;
-    padding: 0.45rem 1rem 0.45rem 3rem;
-    border-radius: 8px;
-    transition: background 0.2s, transform 0.2s;
-    animation: nan-fade-up 0.4s cubic-bezier(.2,.9,.3,1) both;
+    padding: 0.4rem 1rem 0.4rem 2.8rem;
+    border-radius: 6px;
+    transition: background 0.15s;
+    animation: nan-fade-up 0.3s ease both;
   }
   @for $i from 1 through 20 {
-    .cat-post-item:nth-child(#{$i}) { animation-delay: #{$i * 0.05}s; }
+    .cat-post-item:nth-child(#{$i}) { animation-delay: #{$i * 0.04}s; }
   }
   .cat-post-item:hover {
-    background: linear-gradient(90deg, rgba(33, 150, 243, 0.08), rgba(77, 208, 225, 0.05));
-    transform: translateX(4px);
+    background: var(--c-accent-bg);
   }
 
   .cat-post-title {
     flex: 1;
     text-decoration: none;
-    color: inherit;
-    position: relative;
+    color: var(--c-text);
     transition: color 0.2s;
   }
-  .cat-post-title::before {
-    content: "";
-    position: absolute;
-    bottom: -2px; left: 0;
-    height: 2px; width: 0;
-    background: var(--nan-grad);
-    transition: width 0.3s cubic-bezier(.4,0,.2,1);
+  .cat-post-title:hover {
+    color: var(--c-accent);
   }
-  .cat-post-title:hover { color: var(--nan-purple); }
-  .cat-post-title:hover::before { width: 100%; }
 
   .cat-post-meta {
-    display: inline-flex;
-    gap: 0.6rem;
     font-size: 0.75rem;
-    color: #888;
+    color: var(--c-text-mute);
     white-space: nowrap;
     font-variant-numeric: tabular-nums;
     font-family: 'JetBrains Mono', monospace;
   }
-  .cat-post-updated { color: var(--nan-cyan); }
+  .cat-post-updated { color: var(--c-accent); }
 }
 
-// -------- 首页最近更新简表 --------
+// -------- 最近更新 --------
 .post-list {
   list-style: none;
   padding: 0;
 }
 .post-list li {
-  padding: 0.45rem 0;
-  border-bottom: 1px dashed rgba(128, 128, 128, 0.15);
-  transition: padding-left 0.2s;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--c-border);
+  transition: padding-left 0.15s;
 }
-.post-list li:hover { padding-left: 6px; }
-.post-list li a { text-decoration: none; }
-.post-list li a:hover { color: var(--nan-purple); }
+.post-list li:hover { padding-left: 4px; }
+.post-list li a {
+  text-decoration: none;
+  color: var(--c-text);
+}
+.post-list li a:hover { color: var(--c-accent); }
 .post-list .post-date {
   font-size: 0.78rem;
-  color: #888;
-  font-variant-numeric: tabular-nums;
+  color: var(--c-text-mute);
   font-family: 'JetBrains Mono', monospace;
 }
 
@@ -272,27 +273,24 @@ h2, h3 {
 .tags-inline {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.55rem;
+  gap: 0.5rem;
   margin: 0.8rem 0 1.5rem;
 }
 .tags-inline .tag {
   display: inline-block;
-  padding: 0.32rem 0.9rem;
-  border-radius: 999px;
-  background: rgba(77, 208, 225, 0.1);
-  color: #2b9bad;
-  font-size: 0.85rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 6px;
+  background: var(--c-accent-bg);
+  color: var(--c-accent);
+  font-size: 0.82rem;
   font-weight: 500;
-  border: 1px solid rgba(77, 208, 225, 0.28);
-  transition: transform 0.25s cubic-bezier(.4,1.4,.5,1), box-shadow 0.25s, background 0.25s;
+  border: 1px solid rgba(59, 130, 246, 0.15);
+  transition: background 0.2s, border-color 0.2s;
   cursor: default;
 }
 .tags-inline .tag:hover {
-  transform: translateY(-3px) scale(1.05);
-  background: rgba(33, 150, 243, 0.15);
-  color: var(--nan-purple);
-  border-color: rgba(33, 150, 243, 0.5);
-  box-shadow: 0 6px 20px -6px rgba(33, 150, 243, 0.5);
+  background: rgba(59, 130, 246, 0.12);
+  border-color: rgba(59, 130, 246, 0.4);
 }
 
 // -------- 时间线 --------
@@ -305,68 +303,62 @@ h2, h3 {
 .nan-timeline::before {
   content: "";
   position: absolute;
-  left: 7px;
-  top: 4px;
-  bottom: 4px;
+  left: 7px; top: 4px; bottom: 4px;
   width: 2px;
-  background: linear-gradient(180deg,
-    var(--nan-pink) 0%,
-    var(--nan-purple) 50%,
-    var(--nan-cyan) 100%);
+  background: var(--c-border);
   border-radius: 2px;
-  opacity: 0.35;
 }
 .nan-timeline li {
   position: relative;
-  padding: 0.4rem 0 0.9rem 2rem;
-  animation: nan-fade-up 0.5s cubic-bezier(.2,.9,.3,1) both;
+  padding: 0.4rem 0 0.8rem 2rem;
+  animation: nan-fade-up 0.4s ease both;
 }
 .nan-timeline li:nth-child(1) { animation-delay: 0.05s; }
-.nan-timeline li:nth-child(2) { animation-delay: 0.15s; }
-.nan-timeline li:nth-child(3) { animation-delay: 0.25s; }
+.nan-timeline li:nth-child(2) { animation-delay: 0.12s; }
+.nan-timeline li:nth-child(3) { animation-delay: 0.19s; }
 .nan-timeline .tl-dot {
   position: absolute;
-  left: 0; top: 0.7rem;
-  width: 16px; height: 16px;
+  left: 2px; top: 0.65rem;
+  width: 12px; height: 12px;
   border-radius: 50%;
-  background: var(--nan-grad-diag);
-  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.18);
+  background: var(--c-accent);
+  border: 2px solid var(--c-surface);
+  box-shadow: 0 0 0 2px var(--c-accent);
 }
 .nan-timeline li:first-child .tl-dot {
-  animation: nan-pulse 2.2s ease-in-out infinite;
+  animation: nan-pulse 2.5s ease-in-out infinite;
 }
 .nan-timeline .tl-time {
-  font-size: 0.8rem;
-  color: var(--nan-purple);
+  font-size: 0.78rem;
+  color: var(--c-text-mute);
   font-family: 'JetBrains Mono', monospace;
-  letter-spacing: 0.02em;
-  margin-bottom: 0.15rem;
+  margin-bottom: 0.1rem;
 }
 .nan-timeline .tl-title {
   font-weight: 600;
-  color: inherit;
+  color: var(--c-text);
 }
 
-// -------- 段落加粗渐变 --------
+// -------- 段落加粗：不再渐变，用 accent 色 --------
 p strong {
-  background: var(--nan-grad);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--c-accent);
   font-weight: 700;
+  // 回归正常 text fill
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
+  -webkit-text-fill-color: unset;
 }
 
-// -------- 深色模式微调 --------
-html[data-color-scheme="dark"] .cat-tree .cat-folder,
-html[data-mode="dark"] .cat-tree .cat-folder,
-body.dark .cat-tree .cat-folder {
-  background: rgba(255, 255, 255, 0.03);
-  border-color: rgba(255, 255, 255, 0.1);
-}
-html[data-color-scheme="dark"] .tags-inline .tag,
-html[data-mode="dark"] .tags-inline .tag,
-body.dark .tags-inline .tag {
-  background: rgba(77, 208, 225, 0.14);
-  color: #7ee0ee;
-  border-color: rgba(77, 208, 225, 0.3);
+// -------- 深色模式 --------
+html[data-color-scheme="dark"],
+html[data-mode="dark"],
+body.dark {
+  --c-bg:         #0f172a;
+  --c-surface:    #1e293b;
+  --c-border:     #334155;
+  --c-text:       #e2e8f0;
+  --c-text-dim:   #94a3b8;
+  --c-text-mute:  #64748b;
+  --c-accent-bg:  rgba(59, 130, 246, 0.12);
 }
