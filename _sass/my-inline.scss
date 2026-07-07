@@ -377,26 +377,30 @@ p strong {
   -webkit-text-fill-color: unset;
 }
 
-// -------- Footer 位置修正（贴底，不悬空） --------
-footer, .legal, .content > .hr + * {
-  margin-top: auto;
-  padding-top: 2rem;
+// -------- Footer 位置修正（贴底） --------
+// .page/.post 占满空间，footer 自然贴底
+.page, .post {
+  flex: 1;
+}
+footer, .legal, .content > hr:last-of-type ~ * {
+  margin-top: auto !important;
+  padding-top: 1.5rem;
+  padding-bottom: 1rem;
 }
 
-// -------- 手机端：右上角小头像 --------
+// -------- 手机端：左上角头像（大一些，更醒目） --------
 @media (max-width: 63em) {
-  // 在 body 上用 ::after 放一个右上角小头像
   body::after {
     content: "";
     position: fixed;
-    top: 0.75rem;
-    right: 0.75rem;
-    width: 36px;
-    height: 36px;
+    top: 0.6rem;
+    left: 0.75rem;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     background: url('/assets/img/avatar.png') center/cover no-repeat;
-    border: 2px solid rgba(255, 255, 255, 0.8);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     z-index: 999;
     pointer-events: none;
   }
