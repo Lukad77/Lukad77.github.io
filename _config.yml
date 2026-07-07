@@ -13,7 +13,7 @@ timezone:        Asia/Shanghai
 # ===================================================================
 # 主题：hydejack（免费版，通过 remote_theme 注入）
 # ===================================================================
-remote_theme:    hydecorp/hydejack@v9.2.1
+remote_theme:    hydecorp/hydejack@v9.1.9
 theme_color:     "#a86bff"    # 主色，取自你原 index.html 的紫
 
 # hydejack 相关配置
