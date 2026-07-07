@@ -30,79 +30,68 @@
   --c-text-mute:   #94a3b8;  // slate-400
 }
 
-// -------- 全页面背景：Unsplash CDN 外链（不存本地，加载快） --------
+// -------- 删掉顶部 navbar（只有汉堡按钮，暂时没用） --------
+#_navbar, .navbar.fixed-top {
+  display: none !important;
+}
+
+// -------- 全页面背景：Unsplash CDN 外链 --------
 body {
   background: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1920&auto=format&q=80')
     center/cover no-repeat fixed !important;
   color: var(--c-text);
 }
 
-// -------- 侧栏：直接透出背景图（清晰），只加一层轻暗遮罩保证文字可读 --------
+// -------- 侧栏：展开时 = 全屏清晰图 + 轻遮罩（文字可读） --------
 .sidebar-bg,
 .sidebar .sidebar-bg {
-  background: rgba(15, 23, 42, 0.35) !important;
-  // 不设 background-image，让 body 的背景图直接透出来
+  // hydejack 侧栏有自己的背景层，设成半透明让 body 图透出来
+  background: rgba(10, 20, 40, 0.4) !important;
+  background-image: none !important;
 }
 
 .sidebar,
 .sidebar-sticky {
-  color: #f1f5f9;
+  color: #ffffff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
 .sidebar a,
 .sidebar .sidebar-nav-item {
-  color: rgba(255, 255, 255, 0.9);
-  transition: color 0.2s;
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  transition: color 0.2s, text-shadow 0.2s;
 }
 .sidebar a:hover,
 .sidebar .sidebar-nav-item:hover {
-  color: #fff;
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+}
+// 侧栏标题"南陔"强制白色可见
+.sidebar .h1, .sidebar h1, .sidebar h2,
+.sidebar-title, .sidebar .sidebar-title {
+  color: #ffffff !important;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
 }
 
-// -------- 内容区：backdrop-filter 实时虚化背景图（GPU 渲染，零额外请求） --------
+// -------- 内容区：毛玻璃虚化背景图 --------
+// hydejack 的 .content 就是右侧内容容器
 .content {
-  position: relative;
   max-width: 52rem;
-  padding-top: 0.5rem !important;
+  padding-top: 1rem !important;
+  backdrop-filter: blur(24px) saturate(1.3);
+  -webkit-backdrop-filter: blur(24px) saturate(1.3);
+  background: rgba(255, 255, 255, 0.72) !important;
+  min-height: 100vh;
 }
 
-// 内容区整体毛玻璃层
-.content::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  // 从侧栏右边缘开始到页面右边缘
-  left: 21rem; // hydejack 侧栏默认宽度
-  right: 0;
-  bottom: 0;
-  backdrop-filter: blur(20px) saturate(1.2);
-  -webkit-backdrop-filter: blur(20px) saturate(1.2);
-  background: rgba(255, 255, 255, 0.75);
-  z-index: -1;
-  pointer-events: none;
-}
-
-// 卡片：更深的毛玻璃 + 白底
+// 卡片：在已经模糊的内容区上再加一层微妙白底
 .page, .post {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.6);
   border-radius: 12px;
   padding: 2.5rem 2.2rem;
   margin: 1.2rem 0;
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
-}
-
-// -------- 收窄顶部空白 --------
-#_navbar, .navbar, header.content {
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
-  min-height: auto;
-}
-
-// 响应式：移动端侧栏收起时 content::before 从左边缘开始
-@media (max-width: 63em) {
-  .content::before { left: 0; }
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
 }
 
 // -------- 字体全局 --------
