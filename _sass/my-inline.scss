@@ -368,7 +368,9 @@ a:hover {
 
 // -------- Mermaid 图表：不溢出容器 --------
 // Mermaid v11 在 code.language-mermaid 内直接生成 SVG（不设 div.mermaid）
+// 关键：<pre> 没有 max-width 时会撑到内容宽度，必须约束到 100%
 pre:has(> code.language-mermaid) {
+  max-width: 100%;
   overflow-x: auto;
   background: transparent;
   border: none;
