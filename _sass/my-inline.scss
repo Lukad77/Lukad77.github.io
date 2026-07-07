@@ -1,0 +1,149 @@
+// -----------------------------------------------------------------------------
+// my-inline.scss — 站点自定义样式（会被 hydejack 内联注入）
+// -----------------------------------------------------------------------------
+// 主要做两件事：
+//   1) 承接原 index.html 的粉紫青渐变基调（作为强调色/头部渐变条）
+//   2) 定义 categories-tree.html 折叠目录的 xinfang 风格样式
+// -----------------------------------------------------------------------------
+
+// -------- 配色 --------
+:root {
+  --nan-pink:    #ff5c8a;
+  --nan-purple:  #a86bff;
+  --nan-cyan:    #4dd0e1;
+  --nan-grad:    linear-gradient(90deg, var(--nan-pink), var(--nan-purple), var(--nan-cyan));
+}
+
+// -------- 折叠目录：xinfang 风 --------
+.cat-tree {
+  margin: 1.5rem 0;
+
+  .cat-folder {
+    margin: 0.6rem 0;
+    padding: 0;
+    border: 1px solid rgba(128, 128, 128, 0.18);
+    border-radius: 10px;
+    background: rgba(128, 128, 128, 0.04);
+    overflow: hidden;
+    transition: border-color 0.2s;
+
+    &[open] { border-color: rgba(168, 107, 255, 0.4); }
+    &:hover { border-color: rgba(168, 107, 255, 0.6); }
+  }
+
+  .cat-head {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.7rem 1rem;
+    cursor: pointer;
+    font-size: 1.05rem;
+    font-weight: 600;
+    user-select: none;
+    list-style: none;
+
+    &::-webkit-details-marker { display: none; }
+    &::marker { display: none; }
+
+    &::after {
+      content: "▸";
+      margin-left: auto;
+      color: #999;
+      transition: transform 0.2s;
+    }
+  }
+
+  details[open] > .cat-head::after { transform: rotate(90deg); }
+
+  .cat-emoji { font-size: 1.2rem; }
+  .cat-name  { flex: 0 1 auto; }
+  .cat-count {
+    display: inline-block;
+    min-width: 1.8rem;
+    padding: 0 0.5rem;
+    text-align: center;
+    background: rgba(168, 107, 255, 0.12);
+    color: var(--nan-purple);
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+
+  .cat-desc {
+    padding: 0 1rem 0.4rem 2.9rem;
+    font-size: 0.85rem;
+    color: #888;
+  }
+
+  .cat-empty {
+    padding: 0.6rem 1rem 0.9rem 2.9rem;
+    font-size: 0.88rem;
+    color: #aaa;
+    font-style: italic;
+  }
+
+  .cat-post-list {
+    list-style: none;
+    margin: 0;
+    padding: 0.2rem 0 0.6rem 0;
+  }
+
+  .cat-post-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.35rem 1rem 0.35rem 2.9rem;
+    border-radius: 6px;
+    transition: background 0.15s;
+
+    &:hover { background: rgba(168, 107, 255, 0.06); }
+  }
+
+  .cat-post-title {
+    flex: 1;
+    text-decoration: none;
+    color: inherit;
+
+    &:hover { color: var(--nan-purple); }
+  }
+
+  .cat-post-meta {
+    display: inline-flex;
+    gap: 0.6rem;
+    font-size: 0.78rem;
+    color: #888;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .cat-post-updated { color: var(--nan-cyan); }
+}
+
+// -------- 首页最近更新简表 --------
+.post-list {
+  list-style: none;
+  padding: 0;
+
+  li {
+    padding: 0.35rem 0;
+    border-bottom: 1px dashed rgba(128, 128, 128, 0.15);
+
+    a { text-decoration: none; }
+    a:hover { color: var(--nan-purple); }
+
+    .post-date {
+      font-size: 0.82rem;
+      color: #888;
+      font-variant-numeric: tabular-nums;
+    }
+  }
+}
+
+// -------- 深色模式微调 --------
+html[data-color-scheme="dark"] .cat-tree,
+html[data-mode="dark"] .cat-tree {
+  .cat-folder { background: rgba(255, 255, 255, 0.03); border-color: rgba(255, 255, 255, 0.1); }
+  .cat-desc, .cat-empty, .cat-post-meta { color: #9aa4b8; }
+  .cat-count { background: rgba(168, 107, 255, 0.22); color: #cbb5ff; }
+}

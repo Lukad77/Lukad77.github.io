@@ -1,0 +1,32 @@
+# _data/categories.yml
+# ===================================================================
+# 分类目录树的数据源。
+# 写文章时在 front matter 里用 `category: <key>` 引用这里的 key
+# （或多分类 `categories: [key1, key2]`）。
+# 修改 emoji / 显示名 / 顺序都在这里改，不用改代码。
+# ===================================================================
+
+- key:       recsys
+  emoji:     "🤖"
+  name:      "推荐系统 / 机器学习"
+  desc:      '召回、排序、特征、DAG，以及"为什么这么做"'
+
+- key:       cpp-inner
+  emoji:     "⚙️"
+  name:      "C++ 内功"
+  desc:      '语言机制、STL、模板、内存模型、性能'
+
+- key:       embedded
+  emoji:     "🔌"
+  name:      "嵌入式 / EE"
+  desc:      'STM32、模拟/数字电路、硬件直觉'
+
+- key:       thinking
+  emoji:     "🧠"
+  name:      "系统思考 / 方法论"
+  desc:      '工作方法、学习路径、思维模型、书评'
+
+- key:       life
+  emoji:     "📖"
+  name:      "生活随笔"
+  desc:      '篮球、CS2、日常、非技术碎片'

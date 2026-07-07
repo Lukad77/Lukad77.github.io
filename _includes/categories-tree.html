@@ -1,0 +1,51 @@
+{% comment %}
+==============================================================================
+categories-tree.html
+------------------------------------------------------------------------------
+遍历 _data/categories.yml，为每个分类生成一个 <details> 折叠块。
+每个块内列出该分类下所有 posts（按日期倒序），显示：标题、发布日期、更新日期。
+
+使用方式：在任何页面写 {% include categories-tree.html %} 即可。
+
+如何在文章里"归位"到某个分类：
+在 _posts/xxx.md 的 front matter 写 `category: recsys`
+（key 必须对应 _data/categories.yml 里的 key 字段）。
+==============================================================================
+{% endcomment %}
+
+<div class="cat-tree">
+{% for c in site.data.categories %}
+  {% assign key = c.key %}
+  {% assign posts_in_cat = site.posts | where_exp:"p","p.categories contains key or p.category == key" %}
+  {% assign cnt = posts_in_cat | size %}
+
+  <details class="cat-folder" {% if cnt > 0 %}open{% endif %}>
+    <summary class="cat-head">
+      <span class="cat-emoji">{{ c.emoji }}</span>
+      <span class="cat-name">{{ c.name }}</span>
+      <span class="cat-count">{{ cnt }}</span>
+    </summary>
+    {% if c.desc %}
+    <div class="cat-desc">{{ c.desc }}</div>
+    {% endif %}
+
+    {% if cnt == 0 %}
+      <div class="cat-empty">（还没写，敬请期待）</div>
+    {% else %}
+      <ul class="cat-post-list">
+        {% for p in posts_in_cat %}
+        <li class="cat-post-item">
+          <a class="cat-post-title" href="{{ p.url | relative_url }}">{{ p.title }}</a>
+          <span class="cat-post-meta">
+            {% if p.last_modified_at %}
+            <span class="cat-post-updated" title="最近更新">↻ {{ p.last_modified_at | date: "%Y-%m-%d" }}</span>
+            {% endif %}
+            <span class="cat-post-date" title="发布">{{ p.date | date: "%Y-%m-%d" }}</span>
+          </span>
+        </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </details>
+{% endfor %}
+</div>
