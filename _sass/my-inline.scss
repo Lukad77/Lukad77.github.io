@@ -30,28 +30,22 @@
   --c-text-mute:   #94a3b8;  // slate-400
 }
 
-// -------- 侧栏 --------
+// -------- 侧栏：用真实图片 + 轻暗遮罩 --------
 .sidebar-bg,
 .sidebar .sidebar-bg {
   background-image: none !important;
   background:
-    // 中上部一抹柔和蓝色光带，让渐变有层次感
-    radial-gradient(ellipse at 50% 30%, rgba(59, 130, 246, 0.1) 0%, transparent 60%),
-    // 主渐变：从偏亮的 slate-700 到深沉的 slate-900
-    linear-gradient(180deg,
-      #334155 0%,      // slate-700（顶部偏亮）
-      #1e293b 50%,     // slate-800（中段）
-      #0f172a 100%     // slate-900（底部深沉）
-    ) !important;
+    linear-gradient(180deg, rgba(15, 23, 42, 0.3) 0%, rgba(15, 23, 42, 0.5) 100%),
+    url('/assets/img/sidebar-bg.jpg') center/cover no-repeat !important;
 }
 
 .sidebar,
 .sidebar-sticky {
-  color: #e2e8f0; // slate-200
+  color: #f1f5f9; // slate-100
 }
 .sidebar a,
 .sidebar .sidebar-nav-item {
-  color: #cbd5e1; // slate-300
+  color: rgba(255, 255, 255, 0.9);
   transition: color 0.2s;
 }
 .sidebar a:hover,
@@ -59,19 +53,55 @@
   color: #fff;
 }
 
-// -------- 内容区 --------
+// -------- 内容区：同源图片模糊做背景，浑然一体 --------
 .content, main, body {
-  background-color: #e2e8f0 !important;  // slate-200，和侧栏色温呼应
-  color: var(--c-text);
+  background: none !important;
+  position: relative;
 }
 
+// 用 body::before 做全屏模糊背景层
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: -1;
+  background: url('/assets/img/sidebar-bg.jpg') center/cover no-repeat fixed;
+  filter: blur(40px) brightness(1.1);
+  transform: scale(1.15); // 放大一点消除边缘模糊衰减
+}
+
+// 半透明白色遮罩，让文字可读
+body::after {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: -1;
+  background: rgba(248, 250, 252, 0.82); // 半透明 slate-50
+}
+
+// 卡片：毛玻璃效果
 .page, .post {
-  background: var(--c-surface);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border-radius: 12px;
   padding: 2.5rem 2.2rem;
   margin: 1.2rem 0;
-  border: 1px solid var(--c-border);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+// -------- 收窄内容区宽度 + 去掉顶部多余空白 --------
+.content {
+  max-width: 52rem;
+  padding-top: 0.5rem !important;
+}
+
+// hydejack 顶部 header 空白过大，压缩
+#_navbar, .navbar, header.content {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  min-height: auto;
 }
 
 // -------- 字体全局 --------
