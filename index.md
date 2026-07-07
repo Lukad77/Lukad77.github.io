@@ -12,7 +12,7 @@ sitemap: false
 
 📘 An EE-born Recommender Engineer, wandering between hardware intuition and data-driven models.
 
-📙 打球、玩 CS2、写嵌入式、也算算数 —— 相信理科生的浪漫在于把复杂的东西拆开看。
+📙 打球、健身、偶尔也捣鼓嵌入式小制作 —— 相信理科生的浪漫在于把复杂的东西拆开看。
 
 ---
 
