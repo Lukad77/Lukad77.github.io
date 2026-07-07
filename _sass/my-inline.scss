@@ -35,13 +35,13 @@
 .sidebar .sidebar-bg {
   background-image: none !important;
   background:
-    linear-gradient(180deg, rgba(15, 23, 42, 0.3) 0%, rgba(15, 23, 42, 0.5) 100%),
+    linear-gradient(180deg, rgba(15, 23, 42, 0.25) 0%, rgba(15, 23, 42, 0.45) 100%),
     url('/assets/img/sidebar-bg.jpg') center/cover no-repeat !important;
 }
 
 .sidebar,
 .sidebar-sticky {
-  color: #f1f5f9; // slate-100
+  color: #f1f5f9;
 }
 .sidebar a,
 .sidebar .sidebar-nav-item {
@@ -53,42 +53,24 @@
   color: #fff;
 }
 
-// -------- 内容区：同源图片模糊做背景，浑然一体 --------
-.content, main, body {
-  background: none !important;
-  position: relative;
-}
-
-// 用 body::before 做全屏模糊背景层
-body::before {
-  content: "";
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  z-index: -1;
-  background: url('/assets/img/sidebar-bg.jpg') center/cover no-repeat fixed;
-  filter: blur(40px) brightness(1.1);
-  transform: scale(1.15); // 放大一点消除边缘模糊衰减
-}
-
-// 半透明白色遮罩，让文字可读
-body::after {
-  content: "";
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  z-index: -1;
-  background: rgba(248, 250, 252, 0.82); // 半透明 slate-50
+// -------- 内容区：同源图片 + 白色半透明遮罩（不用伪元素） --------
+body {
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.88)),
+    url('/assets/img/sidebar-bg.jpg') center/cover no-repeat fixed !important;
+  color: var(--c-text);
 }
 
 // 卡片：毛玻璃效果
 .page, .post {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-radius: 12px;
   padding: 2.5rem 2.2rem;
   margin: 1.2rem 0;
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
 }
 
 // -------- 收窄内容区宽度 + 去掉顶部多余空白 --------
@@ -97,7 +79,6 @@ body::after {
   padding-top: 0.5rem !important;
 }
 
-// hydejack 顶部 header 空白过大，压缩
 #_navbar, .navbar, header.content {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
