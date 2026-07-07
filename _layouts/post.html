@@ -12,7 +12,16 @@ layout: default
     s.defer = true;
     s.onload = function() {
       mermaid.initialize({ startOnLoad: false, theme: 'default', useMaxWidth: false });
-      mermaid.run({ querySelector: 'code.language-mermaid' });
+      mermaid.run({ querySelector: 'code.language-mermaid' }).then(function() {
+        document.querySelectorAll('code.language-mermaid svg').forEach(function(svg) {
+          var vbWidth = Math.ceil(svg.viewBox.baseVal.width);
+          if (vbWidth > 0) {
+            svg.setAttribute('width', vbWidth);
+            svg.style.maxWidth = '100%';
+            svg.style.height = 'auto';
+          }
+        });
+      });
     };
     document.head.appendChild(s);
   })();
