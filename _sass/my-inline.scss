@@ -1,20 +1,71 @@
 // -----------------------------------------------------------------------------
 // my-inline.scss — 站点自定义样式（会被 hydejack 内联注入）
 // -----------------------------------------------------------------------------
-// 主要做两件事：
-//   1) 承接原 index.html 的粉紫青渐变基调（作为强调色/头部渐变条）
-//   2) 定义 categories-tree.html 折叠目录的 xinfang 风格样式
+// 目标：承接原 index.html 的粉紫青渐变基调 + 加一点动效，让站点不那么"素"
 // -----------------------------------------------------------------------------
+
+// -------- 字体：Google Fonts + 中文回退 --------
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
 
 // -------- 配色 --------
 :root {
   --nan-pink:    #ff5c8a;
   --nan-purple:  #a86bff;
   --nan-cyan:    #4dd0e1;
+  --nan-gold:    #ffb347;
   --nan-grad:    linear-gradient(90deg, var(--nan-pink), var(--nan-purple), var(--nan-cyan));
+  --nan-grad-diag: linear-gradient(135deg, var(--nan-pink) 0%, var(--nan-purple) 50%, var(--nan-cyan) 100%);
 }
 
-// -------- 折叠目录：xinfang 风 --------
+// -------- 全局字体接管 --------
+body,
+.sidebar,
+.content,
+main {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'PingFang SC',
+    'Hiragino Sans GB', 'Microsoft YaHei', 'Segoe UI', sans-serif;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code, pre, .highlight, kbd, samp {
+  font-family: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+}
+
+// -------- 大标题渐变 --------
+h1, .page-title, .post-title, .hero-title {
+  background: var(--nan-grad-diag);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  animation: nan-title-in 0.6s cubic-bezier(.2,.9,.3,1) both;
+}
+
+h2, h3 {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+// -------- 动画关键帧 --------
+@keyframes nan-title-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes nan-fade-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes nan-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(168, 107, 255, 0.55); }
+  50%      { box-shadow: 0 0 0 6px rgba(168, 107, 255, 0);   }
+}
+
+// -------- 折叠目录 --------
 .cat-tree {
   margin: 1.5rem 0;
 
@@ -22,61 +73,75 @@
     margin: 0.6rem 0;
     padding: 0;
     border: 1px solid rgba(128, 128, 128, 0.18);
-    border-radius: 10px;
+    border-radius: 12px;
     background: rgba(128, 128, 128, 0.04);
     overflow: hidden;
-    transition: border-color 0.2s;
-
-    &[open] { border-color: rgba(168, 107, 255, 0.4); }
-    &:hover { border-color: rgba(168, 107, 255, 0.6); }
+    transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+  }
+  .cat-folder[open] {
+    border-color: rgba(168, 107, 255, 0.4);
+    box-shadow: 0 4px 20px -8px rgba(168, 107, 255, 0.35);
+  }
+  .cat-folder:hover {
+    border-color: rgba(168, 107, 255, 0.7);
+    transform: translateY(-1px);
   }
 
   .cat-head {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.7rem 1rem;
+    gap: 0.8rem;
+    padding: 0.8rem 1rem;
     cursor: pointer;
     font-size: 1.05rem;
     font-weight: 600;
     user-select: none;
     list-style: none;
-
-    &::-webkit-details-marker { display: none; }
-    &::marker { display: none; }
-
-    &::after {
-      content: "▸";
-      margin-left: auto;
-      color: #999;
-      transition: transform 0.2s;
-    }
+    position: relative;
   }
-
+  .cat-head::-webkit-details-marker { display: none; }
+  .cat-head::marker { display: none; }
+  .cat-head::after {
+    content: "▸";
+    margin-left: auto;
+    color: #999;
+    transition: transform 0.25s cubic-bezier(.5,0,.5,1);
+  }
   details[open] > .cat-head::after { transform: rotate(90deg); }
 
-  .cat-emoji { font-size: 1.2rem; }
-  .cat-name  { flex: 0 1 auto; }
+  .cat-emoji {
+    font-size: 1.3rem;
+    display: inline-block;
+    transition: transform 0.3s cubic-bezier(.4,1.4,.5,1);
+  }
+  details[open] > .cat-head .cat-emoji { transform: scale(1.15) rotate(-6deg); }
+  .cat-folder:hover .cat-emoji { transform: scale(1.1); }
+
+  .cat-name { flex: 0 1 auto; }
+
   .cat-count {
     display: inline-block;
     min-width: 1.8rem;
-    padding: 0 0.5rem;
+    padding: 0.05rem 0.55rem;
     text-align: center;
-    background: rgba(168, 107, 255, 0.12);
-    color: var(--nan-purple);
+    background: var(--nan-grad-diag);
+    color: #fff;
     border-radius: 999px;
-    font-size: 0.8rem;
-    font-weight: 500;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    box-shadow: 0 2px 8px -2px rgba(168, 107, 255, 0.6);
   }
 
   .cat-desc {
-    padding: 0 1rem 0.4rem 2.9rem;
+    padding: 0 1rem 0.5rem 3rem;
     font-size: 0.85rem;
     color: #888;
+    font-style: italic;
   }
 
   .cat-empty {
-    padding: 0.6rem 1rem 0.9rem 2.9rem;
+    padding: 0.6rem 1rem 0.9rem 3rem;
     font-size: 0.88rem;
     color: #aaa;
     font-style: italic;
@@ -85,7 +150,7 @@
   .cat-post-list {
     list-style: none;
     margin: 0;
-    padding: 0.2rem 0 0.6rem 0;
+    padding: 0.2rem 0 0.8rem 0;
   }
 
   .cat-post-item {
@@ -93,30 +158,46 @@
     justify-content: space-between;
     align-items: baseline;
     gap: 1rem;
-    padding: 0.35rem 1rem 0.35rem 2.9rem;
-    border-radius: 6px;
-    transition: background 0.15s;
-
-    &:hover { background: rgba(168, 107, 255, 0.06); }
+    padding: 0.45rem 1rem 0.45rem 3rem;
+    border-radius: 8px;
+    transition: background 0.2s, transform 0.2s;
+    animation: nan-fade-up 0.4s cubic-bezier(.2,.9,.3,1) both;
+  }
+  @for $i from 1 through 20 {
+    .cat-post-item:nth-child(#{$i}) { animation-delay: #{$i * 0.05}s; }
+  }
+  .cat-post-item:hover {
+    background: linear-gradient(90deg, rgba(168, 107, 255, 0.08), rgba(77, 208, 225, 0.05));
+    transform: translateX(4px);
   }
 
   .cat-post-title {
     flex: 1;
     text-decoration: none;
     color: inherit;
-
-    &:hover { color: var(--nan-purple); }
+    position: relative;
+    transition: color 0.2s;
   }
+  .cat-post-title::before {
+    content: "";
+    position: absolute;
+    bottom: -2px; left: 0;
+    height: 2px; width: 0;
+    background: var(--nan-grad);
+    transition: width 0.3s cubic-bezier(.4,0,.2,1);
+  }
+  .cat-post-title:hover { color: var(--nan-purple); }
+  .cat-post-title:hover::before { width: 100%; }
 
   .cat-post-meta {
     display: inline-flex;
     gap: 0.6rem;
-    font-size: 0.78rem;
+    font-size: 0.75rem;
     color: #888;
     white-space: nowrap;
     font-variant-numeric: tabular-nums;
+    font-family: 'JetBrains Mono', monospace;
   }
-
   .cat-post-updated { color: var(--nan-cyan); }
 }
 
@@ -124,26 +205,121 @@
 .post-list {
   list-style: none;
   padding: 0;
+}
+.post-list li {
+  padding: 0.45rem 0;
+  border-bottom: 1px dashed rgba(128, 128, 128, 0.15);
+  transition: padding-left 0.2s;
+}
+.post-list li:hover { padding-left: 6px; }
+.post-list li a { text-decoration: none; }
+.post-list li a:hover { color: var(--nan-purple); }
+.post-list .post-date {
+  font-size: 0.78rem;
+  color: #888;
+  font-variant-numeric: tabular-nums;
+  font-family: 'JetBrains Mono', monospace;
+}
 
-  li {
-    padding: 0.35rem 0;
-    border-bottom: 1px dashed rgba(128, 128, 128, 0.15);
+// -------- 兴趣标签 --------
+.tags-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin: 0.8rem 0 1.5rem;
+}
+.tags-inline .tag {
+  display: inline-block;
+  padding: 0.32rem 0.9rem;
+  border-radius: 999px;
+  background: rgba(77, 208, 225, 0.1);
+  color: #2b9bad;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: 1px solid rgba(77, 208, 225, 0.28);
+  transition: transform 0.25s cubic-bezier(.4,1.4,.5,1), box-shadow 0.25s, background 0.25s;
+  cursor: default;
+}
+.tags-inline .tag:hover {
+  transform: translateY(-3px) scale(1.05);
+  background: rgba(168, 107, 255, 0.15);
+  color: var(--nan-purple);
+  border-color: rgba(168, 107, 255, 0.5);
+  box-shadow: 0 6px 20px -6px rgba(168, 107, 255, 0.5);
+}
 
-    a { text-decoration: none; }
-    a:hover { color: var(--nan-purple); }
+// -------- 时间线 --------
+.nan-timeline {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 2rem;
+  position: relative;
+}
+.nan-timeline::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 4px;
+  bottom: 4px;
+  width: 2px;
+  background: linear-gradient(180deg,
+    var(--nan-pink) 0%,
+    var(--nan-purple) 50%,
+    var(--nan-cyan) 100%);
+  border-radius: 2px;
+  opacity: 0.35;
+}
+.nan-timeline li {
+  position: relative;
+  padding: 0.4rem 0 0.9rem 2rem;
+  animation: nan-fade-up 0.5s cubic-bezier(.2,.9,.3,1) both;
+}
+.nan-timeline li:nth-child(1) { animation-delay: 0.05s; }
+.nan-timeline li:nth-child(2) { animation-delay: 0.15s; }
+.nan-timeline li:nth-child(3) { animation-delay: 0.25s; }
+.nan-timeline .tl-dot {
+  position: absolute;
+  left: 0; top: 0.7rem;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: var(--nan-grad-diag);
+  box-shadow: 0 0 0 3px rgba(168, 107, 255, 0.18);
+}
+.nan-timeline li:first-child .tl-dot {
+  animation: nan-pulse 2.2s ease-in-out infinite;
+}
+.nan-timeline .tl-time {
+  font-size: 0.8rem;
+  color: var(--nan-purple);
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.15rem;
+}
+.nan-timeline .tl-title {
+  font-weight: 600;
+  color: inherit;
+}
 
-    .post-date {
-      font-size: 0.82rem;
-      color: #888;
-      font-variant-numeric: tabular-nums;
-    }
-  }
+// -------- 段落加粗渐变 --------
+p strong {
+  background: var(--nan-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
 }
 
 // -------- 深色模式微调 --------
-html[data-color-scheme="dark"] .cat-tree,
-html[data-mode="dark"] .cat-tree {
-  .cat-folder { background: rgba(255, 255, 255, 0.03); border-color: rgba(255, 255, 255, 0.1); }
-  .cat-desc, .cat-empty, .cat-post-meta { color: #9aa4b8; }
-  .cat-count { background: rgba(168, 107, 255, 0.22); color: #cbb5ff; }
+html[data-color-scheme="dark"] .cat-tree .cat-folder,
+html[data-mode="dark"] .cat-tree .cat-folder,
+body.dark .cat-tree .cat-folder {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+html[data-color-scheme="dark"] .tags-inline .tag,
+html[data-mode="dark"] .tags-inline .tag,
+body.dark .tags-inline .tag {
+  background: rgba(77, 208, 225, 0.14);
+  color: #7ee0ee;
+  border-color: rgba(77, 208, 225, 0.3);
 }
