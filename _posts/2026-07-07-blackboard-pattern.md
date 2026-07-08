@@ -1,7 +1,7 @@
 ---
 title: "黑板模式：当步骤多到'理不清'的时候，让所有人看同一块白板"
 date: 2026-07-07 21:00:00 +0800
-category: design-pattern
+category: cpp-inner
 tags: [设计模式, 黑板模式, DAG, 架构, C++]
 description: >-
   当处理流水线的步骤多到函数签名膨胀、数据散落各处、耦合越来越重的时候，

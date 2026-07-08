@@ -1,7 +1,7 @@
 ---
 title: "DAG：有向无环图与任务调度"
 date: 2026-07-08 21:00:00 +0800
-category: design-pattern
+category: cpp-inner
 tags: [设计模式, DAG, 任务调度, 并发, 拓扑排序, 架构]
 description: >-
   DAG（有向无环图）是任务调度的数学基础。本文从装修施工计划类比出发，
