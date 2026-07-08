@@ -16,6 +16,11 @@
   name:      "C++ 内功"
   desc:      '语言机制、STL、模板、内存模型、性能'
 
+- key:       llm-agent
+  emoji:     "🪄"
+  name:      "LLM / Agent"
+  desc:      '大模型、Agent 框架、LangGraph、RAG、Prompt 工程'
+
 - key:       embedded
   emoji:     "🔌"
   name:      "嵌入式 / EE"
