@@ -393,6 +393,36 @@ p strong {
   -webkit-text-fill-color: unset;
 }
 
+// -------- 表格：防溢出 + 基本美化 --------
+.content table,
+.post-content table,
+article table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-collapse: collapse;
+  font-size: 0.9em;
+  margin: 1.5rem 0;
+}
+.content table th,
+.post-content table th,
+article table th {
+  background: var(--c-accent-bg);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.content table th,
+.content table td,
+.post-content table th,
+.post-content table td,
+article table th,
+article table td {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--c-border);
+  vertical-align: top;
+}
+
 // -------- Footer 样式（自然流动，不做 flex） --------
 footer.content {
   font-size: 0.8rem;
