@@ -9,7 +9,7 @@ description: 从最外层看大模型完整链路：字符串怎么被 tokenizer
 
 # 从字符串到字符串：大模型收到一句话后到底发生了什么
 
-> 从最外层往里看：一段字符串怎么被 tokenizer 切成整数、进 Transformer 前向 N 次、再由 tokenizer 拼回字符串。姊妹篇：*Transformer 结构手推笔记*（单次前向的每一步数学，是本篇②模型空间的深挖）与 *Transformer 训练与推理笔记*（参数怎么被梯度雕出来的、推理循环的机制）。
+> 从最外层往里看：一段字符串怎么被 tokenizer 切成整数、进 Transformer 前向 N 次、再由 tokenizer 拼回字符串。姊妹篇：[Transformer 结构手推笔记](/2026/07/21/transformer-forward/)（单次前向的每一步数学，是本篇②模型空间的深挖）与 *Transformer 训练与推理笔记*（参数怎么被梯度雕出来的、推理循环的机制）。
 
 ## 一个大模型收到用户输入之后，到底发生了什么？
 
@@ -30,7 +30,7 @@ description: 从最外层看大模型完整链路：字符串怎么被 tokenizer
 
 Transformer 用注意力**一步到位让任意两个位置直接交互**——距离多远都一个矩阵乘就完事，既能并行、又没有距离衰减。这是它取代 RNN 的根本动机。
 
-顺带一句：**Transformer 天生对顺序不敏感**（注意力是两两算相似度，与位置无关）。所以顺序信息是靠"位置编码 + 因果掩码"人为注入的——这两件事的具体细节在 *Transformer 结构手推笔记* 里手推展开。
+顺带一句：**Transformer 天生对顺序不敏感**（注意力是两两算相似度，与位置无关）。所以顺序信息是靠"位置编码 + 因果掩码"人为注入的——这两件事的具体细节在 [Transformer 结构手推笔记](/2026/07/21/transformer-forward/) 里手推展开。
 
 ## 那"字符串 → 整数"这一步到底在干嘛？
 
@@ -240,7 +240,7 @@ Decoder-only 之所以最终胜出，有四层原因：
 
 >我们端到端图 C 里画的正是 Decoder-only：单塔、只有一种因果自注意力、id 序列一路穿到底。**去掉因果掩码就变成 Encoder；再拼上一条平行的 encoder 输出 + 一次 cross-attention 就变成 Encoder-Decoder**——三种架构的算法内核完全同源，只在"注意力用不用 mask、Q/K/V 来自几条序列"两件事上区分。
 
-这部分数学细节在 *Transformer 结构手推笔记* 的"自注意力 vs 交叉注意力"章节展开。
+这部分数学细节在 [Transformer 结构手推笔记](/2026/07/21/transformer-forward/) 的"自注意力 vs 交叉注意力"章节展开。
 
 ## 生产环境的 tokenizer 跟这个 demo 差多远？
 
