@@ -7,8 +7,6 @@ tags: [深度学习, Transformer, 注意力机制, 生成式推荐]
 description: 用一个 A→B→C、d=4、2 头的小例子，把整块 Transformer Block 的单次前向传播从头手算一遍：embedding + 位置编码 → Q/K/V 投影 → 缩放点积注意力 + 因果掩码 → 多头拼接 → 残差 + LayerNorm → FFN。每一步都有精确数值和代码骨架。
 ---
 
-# Transformer 结构手推笔记（前向全流程）
-
 > 这一篇是 [从字符串到字符串](/2026/07/23/string-to-string/) 里 **②模型空间**的深挖：单次前向传播每一步矩阵运算怎么走。用一个小例子把整块 Transformer Block 从头手算一遍。序列 `A → B → C`，隐藏维度 `d=4`，故意取小方便手算。
 >
 > 姊妹篇：[从字符串到字符串](/2026/07/23/string-to-string/)（外层大局观 + tokenizer + 生成循环）与 *Transformer 训练与推理笔记*（本文里那些 W 矩阵怎么学出来的、反向传播、推理循环）。

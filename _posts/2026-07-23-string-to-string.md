@@ -7,8 +7,6 @@ tags: [Transformer, LLM, tokenizer, BPE, 端到端]
 description: 从最外层看大模型完整链路：字符串怎么被 tokenizer 切成整数、进 Transformer 前向 N 次、再由 tokenizer 拼回字符串。覆盖 BPE 训练/编码手写 demo、Decoder-only 架构选型动机、端到端总纲图解。
 ---
 
-# 从字符串到字符串：大模型收到一句话后到底发生了什么
-
 > 从最外层往里看：一段字符串怎么被 tokenizer 切成整数、进 Transformer 前向 N 次、再由 tokenizer 拼回字符串。姊妹篇：[Transformer 结构手推笔记](/2026/07/21/transformer-forward/)（单次前向的每一步数学，是本篇②模型空间的深挖）与 *Transformer 训练与推理笔记*（参数怎么被梯度雕出来的、推理循环的机制）。
 
 ## 一个大模型收到用户输入之后，到底发生了什么？
